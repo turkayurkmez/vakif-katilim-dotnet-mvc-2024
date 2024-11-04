@@ -1,35 +1,37 @@
 ﻿@model IEnumerable<Person>
-<html>
-<head>
-</head>
-<body>
-    <p>Burası; Home/Index.HTML</p>
-    <p>Değişiklik yaptım!</p>
-    <p>Merhaba @ViewBag.Name</p>
-    @if (ViewBag.Hour >= 12)
-    {
-        <p>İyi günler</p>
-    }
-    else if (ViewBag.Hour >=17)
-    {
-        <p>İyi Akşamlar</p>
-    }
 
-    Toplam @ViewBag.People.Count kişi var:
+
+<p>Burası; Home/Index.HTML</p>
+<p>Değişiklik yaptım!</p>
+<p>Merhaba @ViewBag.Name</p>
+@if (ViewBag.Hour >= 12)
+{
+    <p>İyi günler</p>
+}
+else if (ViewBag.Hour >= 17)
+{
+    <p>İyi Akşamlar</p>
+}
+
+@*    Toplam @ViewBag.People.Count kişi var:
     <ul>
         @foreach (dynamic person in ViewBag.People)
         {
-           <li>@person.Name @person.Address</li>
-        }    
-    </ul>
+            <li>@person.Name @person.Address</li>
+        }
+    </ul> *@
 
     Toplam: @Model.Count() kişi var:
 
-    <ul>
+<ul>
     @foreach (var anotherPerson in Model)
     {
-       <li>@anotherPerson.Name @anotherPerson.Address</li>
+        <li>@anotherPerson.Name @anotherPerson.Address</li>
     }
-    </ul>
-</body>
-</html>
+</ul>
+
+<p>
+    Bir organizasyona davetlisiniz. Yanıt vermek için <a asp-action="Response" asp-controller="Home" class="btn btn-success">tıklayın</a>
+</p>
+
+

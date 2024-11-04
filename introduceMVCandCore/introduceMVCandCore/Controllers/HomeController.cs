@@ -10,7 +10,7 @@ namespace introduceMVCandCore.Controllers
             ViewBag.Name = "Türkay";
             ViewBag.Hour = DateTime.Now.Hour;
 
-            var people = new List<Person> { 
+            var people = new List<Person> {
                 new() { Id=1, Name="Sabriye", Address="Çanakkale"},
                 new() { Id=2, Name="Türkay", Address="Eskişehir"},
                 new() { Id=3, Name="Emrah", Address="İstanbul"}
@@ -21,5 +21,22 @@ namespace introduceMVCandCore.Controllers
 
             return View(people);
         }
+
+        public IActionResult Response()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Response(UserResponse response)
+        {
+            if (ModelState.IsValid)
+            {
+                //sonraya bıraktım.
+               return View("Thanks", response);
+            }
+            return View();
+        }
     }
 }
+

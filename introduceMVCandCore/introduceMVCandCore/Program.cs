@@ -9,6 +9,9 @@ var app = builder.Build();
 
 var message = builder.Configuration.GetValue<string>("Message");
 app.Logger.LogInformation($"Host mesajı: {message}");
+
+app.UseStaticFiles();
+
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
 

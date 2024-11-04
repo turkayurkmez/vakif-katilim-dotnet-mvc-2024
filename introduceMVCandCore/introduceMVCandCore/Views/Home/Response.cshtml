@@ -1,0 +1,27 @@
+﻿@model UserResponse
+
+    <form method="post">
+        <div>
+            <input type="text" asp-for="FullName" value="" placeholder="Ad ve soyadınız" class="form-control" />
+            <span asp-validation-for="FullName" ></span>
+        </div>
+        <div>
+            <input type="email" asp-for="Email" value="" placeholder="Eposta Adresi" class="form-control" />
+            <span asp-validation-for="Email"></span>
+
+        </div>
+        <div>
+           <span>Etkinliğe geliyor musunuz?</span>
+           <select asp-for="IsComing" class="form-select">
+               <option value="">Seçiniz</option>
+                <option value="True">Evet</option>
+                <option value="False">Hayır</option>
+
+           </select>
+           <span asp-validation-for="IsComing"></span>
+
+        </div>
+        <div>
+            <button type="submit" class="btn btn-danger">Gönder</button>
+        </div>
+    </form>
