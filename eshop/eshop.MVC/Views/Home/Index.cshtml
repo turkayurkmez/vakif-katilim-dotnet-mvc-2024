@@ -1,7 +1,9 @@
-﻿@model IEnumerable<Product>
+﻿@model ProductsIndexViewModel
+
 @{
     ViewData["Title"] = "Home Page";
     var counter = 0;
+  
 }
 
 <div class="text-center">
@@ -9,7 +11,7 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 <div class="row m-4">
-    @foreach (var product in Model)
+    @foreach (var product in Model.Products)
     {
 
         if (counter != 0 && counter % 4 ==0)
@@ -18,19 +20,21 @@
             @:<div class="row m-4">
         }
         <div class="col-3">
-            <div class="card">
-                <img src="@product.ImageUrl" class="img-fluid"/>
-                <div class="card-body">
-
-                    <h3 class="card-title">@product.Name</h3>
-                    <p class="card-text">@product.Description</p>
-                    <p class="card-text">@product.Price</p>
-
-
-
-                </div>
-            </div>
+           <partial name="_ProductCard" model="product"/>
         </div>
         counter++;
     }    
+</div>
+<div>
+  <ul class="pagination pagination-lg">
+      @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+        {
+            <li class="page-item @(Model.PagingInfo.CurrentPage == i ? "active":"") "><a class="page-link" asp-action="Index" asp-route-pageNo="@i">@i</a></li>
+        }
+   @*  <li class="page-item active" aria-current="page">
+      <span class="page-link">1</span>
+    </li> *@
+    
+    
+  </ul>
 </div>

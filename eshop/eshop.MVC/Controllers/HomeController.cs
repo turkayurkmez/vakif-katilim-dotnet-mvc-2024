@@ -18,12 +18,38 @@ namespace eshop.MVC.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult Index(int pageNo = 1)
         {
             //db'den çek, sayfada göster!
             //ProductService productService = new ProductService();
+
             var products = productService.GetProducts();
-            return View(products);
+            var totalItem = products.Count;
+            var itemPerPage = 8;
+
+            var totalPages = (int)Math.Ceiling((decimal)totalItem / itemPerPage);
+            var pagingInfo = new PagingInfo
+            {
+                ItemsPerPage = itemPerPage,
+                TotalItems = totalItem,
+                CurrentPage = pageNo
+            };
+            //ViewBag.Pages = totalPages;
+            //ViewBag.CurrentPage = pageNo;
+            /*
+             * 1. 
+             * 0...8
+             * 2.
+             * 8..16
+             * 3.
+             * 16. 
+             */
+            var start = (pageNo - 1) * itemPerPage;
+            var end = start + itemPerPage;
+            var paginated = products.Take(start..end);
+            var model = new ProductsIndexViewModel { PagingInfo =pagingInfo, Products = paginated};
+
+            return View(model);
         }
 
         public IActionResult Privacy()
