@@ -1,0 +1,34 @@
+﻿@model ShoppingCard
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ürün Adı</th>
+            <th>Fiyat</th>
+            <th></th>
+            <th>Adet</th>
+            <th>Ara Toplam</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var basketItem in Model.BasketItems)
+        {
+            <tr>
+                <td>@basketItem.Product.Name</td>
+                <td>@basketItem.Product.Price</td>
+                <td><img src="@basketItem.Product.ImageUrl"  /></td>
+                <td>@basketItem.Quantity</td>
+                <td>@(basketItem.Quantity * basketItem.Product.Price) </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5">Toplam Fiyat: @Model.TotalPrice()</td>
+        </tr>
+    </tfoot>
+</table>
+

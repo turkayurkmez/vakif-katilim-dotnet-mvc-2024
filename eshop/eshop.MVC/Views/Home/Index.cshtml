@@ -41,19 +41,20 @@
 @section Scripts{
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('.basket').on('click', function () {
-                let productId = $(this).data('id');
-                $.ajax({
-                    url: 'Basket/AddToCard/'+productId,
-                    method:'GET',
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error:function(err){
-                        console.log('Hata!', err);
-                    });
-            });
+      $(document).ready(function () {
+      $('.basket').on('click', function () {
+        let productId = $(this).data('id');
+        $.ajax({
+            url: '/Basket/AddToCart/' + productId,  
+            method: 'GET',
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (err) {
+                console.log('Hata!', err);
+            }
         });
+      });
+    });
     </script>
 }

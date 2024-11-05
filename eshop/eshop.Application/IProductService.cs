@@ -6,5 +6,7 @@ namespace eshop.Application
     {
         List<Product> GetProducts();
         List<Product> GetProductsByCategory(int categoryId);
+
+        Product GetProductById(int id);
     }
 }

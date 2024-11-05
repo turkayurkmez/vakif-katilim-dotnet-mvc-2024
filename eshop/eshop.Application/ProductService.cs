@@ -32,6 +32,13 @@ namespace eshop.Application
                 new(){ Id=19, Name="Ürün I3", Description="Ürün D4'nın açıklaması", Price=1m, StockCount=100, CategoryId = 2},
                 new(){ Id=20, Name="Ürün İ3", Description="Ürün E5'nın açıklaması", Price=1m, StockCount=100, CategoryId = 2},
             };
+
+        public Product? GetProductById(int id)
+        {
+            return products.Find(p => p.Id == id);
+
+        }
+
         public List<Product> GetProducts()
         {
 
