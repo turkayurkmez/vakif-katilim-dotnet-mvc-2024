@@ -29,7 +29,7 @@
   <ul class="pagination pagination-lg">
       @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
         {
-            <li class="page-item @(Model.PagingInfo.CurrentPage == i ? "active":"") "><a class="page-link" asp-action="Index" asp-route-pageNo="@i">@i</a></li>
+            <li class="page-item @(Model.PagingInfo.CurrentPage == i ? "active":"") "><a class="page-link" asp-action="Index" asp-route-pageNo="@i" asp-route-categoryId="@Model.CategoryId">@i</a></li>
         }
    @*  <li class="page-item active" aria-current="page">
       <span class="page-link">1</span>
@@ -38,3 +38,22 @@
     
   </ul>
 </div>
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.basket').on('click', function () {
+                let productId = $(this).data('id');
+                $.ajax({
+                    url: 'Basket/AddToCard/'+productId,
+                    method:'GET',
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error:function(err){
+                        console.log('Hata!', err);
+                    });
+            });
+        });
+    </script>
+}

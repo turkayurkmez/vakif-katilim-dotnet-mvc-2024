@@ -18,12 +18,12 @@ namespace eshop.MVC.Controllers
         }
 
 
-        public IActionResult Index(int pageNo = 1)
+        public IActionResult Index(int pageNo = 1, int? categoryId=null)
         {
             //db'den çek, sayfada göster!
             //ProductService productService = new ProductService();
 
-            var products = productService.GetProducts();
+            var products = categoryId == null ? productService.GetProducts() : productService.GetProductsByCategory(categoryId.Value) ;
             var totalItem = products.Count;
             var itemPerPage = 8;
 
@@ -47,7 +47,9 @@ namespace eshop.MVC.Controllers
             var start = (pageNo - 1) * itemPerPage;
             var end = start + itemPerPage;
             var paginated = products.Take(start..end);
-            var model = new ProductsIndexViewModel { PagingInfo =pagingInfo, Products = paginated};
+            var model = new ProductsIndexViewModel { PagingInfo =pagingInfo, Products = paginated, CategoryId=categoryId};
+
+
 
             return View(model);
         }

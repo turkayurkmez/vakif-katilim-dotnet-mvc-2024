@@ -14,6 +14,8 @@ namespace eshop.Domain
         public decimal? Price { get; set; }
         public string? ImageUrl { get; set; } = "https://picsum.photos/seed/picsum/200/300";
         public int? StockCount { get; set; }
+
+        public int? CategoryId { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
     }

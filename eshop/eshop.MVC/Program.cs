@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
@@ -22,6 +23,21 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+
+app.MapControllerRoute(
+    name: "category",
+    pattern: "Category/{categoryId?}/Page{pageNo}",
+    defaults: new { controller = "Home", action = "Index", pageNo=1 }
+    );
+
+app.MapControllerRoute(
+    name: "pagination",
+    pattern: "Page{pageNo}",
+    defaults: new { controller = "Home", action = "Index",pageNo=1 }
+    );
+
+
 
 app.MapControllerRoute(
     name: "default",

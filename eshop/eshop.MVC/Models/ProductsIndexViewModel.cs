@@ -6,5 +6,6 @@ namespace eshop.MVC.Models
     {
         public IEnumerable<Product> Products { get; set; }
         public PagingInfo PagingInfo { get; set; }
+        public int? CategoryId { get; set; }
     }
 }
