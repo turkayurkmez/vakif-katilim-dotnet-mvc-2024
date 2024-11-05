@@ -1,15 +1,22 @@
 ﻿@model IEnumerable<Product>
 @{
     ViewData["Title"] = "Home Page";
+    var counter = 0;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-<div class="row">
+<div class="row m-4">
     @foreach (var product in Model)
     {
+
+        if (counter != 0 && counter % 4 ==0)
+        {
+            @:</div>
+            @:<div class="row m-4">
+        }
         <div class="col-3">
             <div class="card">
                 <img src="@product.ImageUrl" class="img-fluid"/>
@@ -24,5 +31,6 @@
                 </div>
             </div>
         </div>
+        counter++;
     }    
 </div>
