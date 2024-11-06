@@ -1,4 +1,7 @@
-﻿using eshop.Domain;
+﻿using eshop.Application.DataTransferObjects.Requests;
+using eshop.Application.DataTransferObjects.Responses;
+using eshop.Domain;
+using Mapster;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,18 +36,62 @@ namespace eshop.Application
                 new(){ Id=20, Name="Ürün İ3", Description="Ürün E5'nın açıklaması", Price=1m, StockCount=100, CategoryId = 2},
             };
 
+        public async Task<int> CreateNewProduct(CreateNewProductRequest request)
+        {
+            var product = request.Adapt<Product>();
+            product.Id = products.Count;
+            products.Add(product);
+            return await Task.FromResult(product.Id);
+        }
+
         public Product? GetProductById(int id)
         {
             return products.Find(p => p.Id == id);
 
         }
 
-        public List<Product> GetProducts()
+        public IEnumerable<ProductDisplayResponse> GetProducts()
         {
 
-            return products;
+            return products.Select(p => new ProductDisplayResponse(
+                Id: p.Id,
+                p.Name,
+                p.Description,
+                p.Price,
+                p.ImageUrl,
+                p.CategoryId,
+                CategoryName: "test"
+
+                ));
         }
 
-        public List<Product> GetProductsByCategory(int categoryId) => products.Where(p=>p.CategoryId==categoryId).ToList();
+        public IEnumerable<ProductDisplayResponse> GetProductsByCategory(int categoryId)
+        {
+            var productResponse  = products.Where(p => p.CategoryId == categoryId);
+            //          .Select(p => new ProductDisplayResponse(
+            //Id: p.Id,
+            //p.Name,
+            //p.Description,
+            //p.Price,
+            //p.ImageUrl,
+            //p.CategoryId,
+            //CategoryName: "test"
+
+            //));
+            return productResponse.Adapt<IEnumerable<ProductDisplayResponse>>(); 
+        }
+
+        public Task Update(UpdateExistingProductRequest request)
+        {
+            var product = request.Adapt<Product>();
+            var existingProduct = products.Find(p=>p.Id == product.Id);
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;  
+            existingProduct.CategoryId = product.CategoryId;
+            existingProduct.Price = product.Price;  
+
+            existingProduct.ImageUrl = product.ImageUrl;
+            return Task.CompletedTask;
+        }
     }
 }

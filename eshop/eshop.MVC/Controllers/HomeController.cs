@@ -24,7 +24,7 @@ namespace eshop.MVC.Controllers
             //ProductService productService = new ProductService();
 
             var products = categoryId == null ? productService.GetProducts() : productService.GetProductsByCategory(categoryId.Value) ;
-            var totalItem = products.Count;
+            var totalItem = products.Count();
             var itemPerPage = 8;
 
             var totalPages = (int)Math.Ceiling((decimal)totalItem / itemPerPage);

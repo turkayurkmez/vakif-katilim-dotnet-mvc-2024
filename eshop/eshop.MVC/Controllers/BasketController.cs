@@ -7,7 +7,6 @@ namespace eshop.MVC.Controllers
 {
     public class BasketController(IProductService productService) : Controller
     {
-
         public IActionResult Index()
         {
             var shoppingCard = getShoppingCardFromSession();

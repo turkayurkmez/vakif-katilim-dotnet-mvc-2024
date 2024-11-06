@@ -1,12 +1,18 @@
-﻿using eshop.Domain;
+﻿using eshop.Application.DataTransferObjects.Requests;
+using eshop.Application.DataTransferObjects.Responses;
+using eshop.Domain;
 
 namespace eshop.Application
 {
     public interface IProductService
     {
-        List<Product> GetProducts();
-        List<Product> GetProductsByCategory(int categoryId);
+        IEnumerable<ProductDisplayResponse> GetProducts();
+        IEnumerable<ProductDisplayResponse> GetProductsByCategory(int categoryId);
 
         Product GetProductById(int id);
+
+        Task<int> CreateNewProduct(CreateNewProductRequest request);
+        Task Update(UpdateExistingProductRequest request);
+      
     }
 }

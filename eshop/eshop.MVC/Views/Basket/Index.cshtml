@@ -3,32 +3,38 @@
     ViewData["Title"] = "Index";
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Ürün Adı</th>
-            <th>Fiyat</th>
-            <th></th>
-            <th>Adet</th>
-            <th>Ara Toplam</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var basketItem in Model.BasketItems)
-        {
+@if (Model.BasketItems.Count == 0)
+{
+    <div class="alert alert-danger">Sepetinizde henüz ürün bulunmuyor</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@basketItem.Product.Name</td>
-                <td>@basketItem.Product.Price</td>
-                <td><img src="@basketItem.Product.ImageUrl"  /></td>
-                <td>@basketItem.Quantity</td>
-                <td>@(basketItem.Quantity * basketItem.Product.Price) </td>
+                <th>Ürün Adı</th>
+                <th>Fiyat</th>
+                <th></th>
+                <th>Adet</th>
+                <th>Ara Toplam</th>
             </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="5">Toplam Fiyat: @Model.TotalPrice()</td>
-        </tr>
-    </tfoot>
-</table>
-
+        </thead>
+        <tbody>
+            @foreach (var basketItem in Model.BasketItems)
+            {
+                <tr>
+                    <td>@basketItem.Product.Name</td>
+                    <td>@basketItem.Product.Price</td>
+                    <td><img src="@basketItem.Product.ImageUrl" /></td>
+                    <td>@basketItem.Quantity</td>
+                    <td>@(basketItem.Quantity * basketItem.Product.Price) </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">Toplam Fiyat: @Model.TotalPrice()</td>
+            </tr>
+        </tfoot>
+    </table>
+}
