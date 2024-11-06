@@ -47,5 +47,18 @@ namespace eshop.MVC.Controllers
             var updateRequest = product.Adapt<UpdateExistingProductRequest>();
             return View(updateRequest);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateExistingProductRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+               await productService.Update(request);
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Categories = getCategories();
+            return View(request);
+
+        }
     }
 }
