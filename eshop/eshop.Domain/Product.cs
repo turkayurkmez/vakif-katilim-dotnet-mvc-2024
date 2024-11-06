@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eshop.Domain
 {
-    public class Product
+    public class Product : IEntity
     {
         public int Id { get; set; }
         [Required]

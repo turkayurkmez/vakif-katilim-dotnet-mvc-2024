@@ -1,4 +1,5 @@
 using eshop.Application;
+using eshop.Infrastructure;
 using eshop.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,8 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductService, CustomProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductRepository, ProductRepostiory>();
 
 var connectionString = builder.Configuration.GetConnectionString("db");
 builder.Services.AddDbContext<VakifEshopDbContext>(option => option.UseSqlServer(connectionString));
