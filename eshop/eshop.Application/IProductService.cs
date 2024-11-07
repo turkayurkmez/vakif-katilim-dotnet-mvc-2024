@@ -13,6 +13,7 @@ namespace eshop.Application
 
         Task<int> CreateNewProduct(CreateNewProductRequest request);
         Task Update(UpdateExistingProductRequest request);
+
       
     }
 }

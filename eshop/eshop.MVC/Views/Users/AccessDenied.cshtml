@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewData["Title"] = "AccessDenied";
+}
+
+<h1>Erişim Problemi</h1>
+<p>
+    Üzgünüm @User.Identity.Name, bu sayfayı görme yetkiniz yok. Çünkü siz, @User.Claims.ToList()[2].Value rolündesiniz. 
+    Ayrıca biliyoruz ki ayak numaranız da  @User.Claims.ToList()[3].Value :)
+</p>
+

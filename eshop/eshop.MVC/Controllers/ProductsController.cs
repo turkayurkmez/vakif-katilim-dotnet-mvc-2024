@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace eshop.MVC.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,Editor")]
     public class ProductsController(IProductService productService, ICategoryService categoryService) : Controller
     {
         public IActionResult Index()

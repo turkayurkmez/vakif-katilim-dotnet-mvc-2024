@@ -1,4 +1,5 @@
 using eshop.Application;
+using eshop.Common.Extensions;
 using eshop.Infrastructure;
 using eshop.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,13 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IProductService, CustomProductService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IProductRepository, ProductRepostiory>();
-builder.Services.AddScoped<IUserService, UserService>();
+
+//builder.Services.AddScoped<IProductService, CustomProductService>();
+//builder.Services.AddScoped<ICategoryService, CustomCategoryService>();
+//builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+//builder.Services.AddScoped<IProductRepository, ProductRepostiory>();
+//builder.Services.AddScoped<IUserService, UserService>();
 
 var connectionString = builder.Configuration.GetConnectionString("db");
-builder.Services.AddDbContext<VakifEshopDbContext>(option => option.UseSqlServer(connectionString));
+//builder.Services.AddDbContext<VakifEshopDbContext>(option => option.UseSqlServer(connectionString));
+builder.Services.AddApplicationServices(connectionString);
+
+
+
+
 builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(5));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -24,6 +32,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                     option.AccessDeniedPath = "/Users/AccessDenied";
 
                 });
+
+builder.Services.AddOutputCache(option =>
+{
+    option.DefaultExpirationTimeSpan = TimeSpan.FromMinutes(5);
+});
+
+builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 
@@ -36,12 +51,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseSession();
 
 app.UseRouting();
-
+app.UseOutputCache();
+app.UseResponseCaching();
 app.UseAuthentication();
 app.UseAuthorization();
 

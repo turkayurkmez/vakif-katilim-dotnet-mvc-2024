@@ -38,6 +38,7 @@ namespace eshop.MVC.Controllers
                     };
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
                     await HttpContext.SignInAsync(claimsPrincipal);
 
                     if (!string.IsNullOrEmpty(gidilecekUrl)&& Url.IsLocalUrl(gidilecekUrl))
@@ -53,5 +54,13 @@ namespace eshop.MVC.Controllers
             return View(model);
 
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
+        }
+
+        public IActionResult AccessDenied() => View();
     }
 }

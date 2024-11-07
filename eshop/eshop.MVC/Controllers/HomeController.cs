@@ -2,6 +2,7 @@
 using eshop.Domain;
 using eshop.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using System.Diagnostics;
 
 namespace eshop.MVC.Controllers
@@ -17,7 +18,7 @@ namespace eshop.MVC.Controllers
             this.productService = productService;
         }
 
-
+        [ResponseCache (Duration =60, Location = ResponseCacheLocation.Any, NoStore =false)]
         public IActionResult Index(int pageNo = 1, int? categoryId=null)
         {
             //db'den çek, sayfada göster!
@@ -49,11 +50,13 @@ namespace eshop.MVC.Controllers
             var paginated = products.Take(start..end);
             var model = new ProductsIndexViewModel { PagingInfo =pagingInfo, Products = paginated, CategoryId=categoryId};
 
+            ViewBag.Time = DateTime.Now;
 
 
             return View(model);
         }
 
+       
         public IActionResult Privacy()
         {
             return View();
