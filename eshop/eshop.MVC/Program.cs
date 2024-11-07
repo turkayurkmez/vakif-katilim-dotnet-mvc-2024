@@ -1,6 +1,7 @@
 using eshop.Application;
 using eshop.Infrastructure;
 using eshop.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,13 +11,19 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductService, CustomProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductRepository, ProductRepostiory>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var connectionString = builder.Configuration.GetConnectionString("db");
 builder.Services.AddDbContext<VakifEshopDbContext>(option => option.UseSqlServer(connectionString));
-
-
-
 builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(5));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option => {
+                    option.LoginPath = "/Users/Login";
+                    option.ReturnUrlParameter = "gidilecekUrl";
+                    option.AccessDeniedPath = "/Users/AccessDenied";
+
+                });
 
 var app = builder.Build();
 
@@ -35,6 +42,7 @@ app.UseSession();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 

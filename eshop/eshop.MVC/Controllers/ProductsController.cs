@@ -1,11 +1,13 @@
 ﻿using eshop.Application;
 using eshop.Application.DataTransferObjects.Requests;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace eshop.MVC.Controllers
 {
+    [Authorize]
     public class ProductsController(IProductService productService, ICategoryService categoryService) : Controller
     {
         public IActionResult Index()
