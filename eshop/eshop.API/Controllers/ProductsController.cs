@@ -1,6 +1,7 @@
 ﻿using eshop.API.Models;
 using eshop.Application;
 using eshop.Application.DataTransferObjects.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +9,10 @@ namespace eshop.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,Editor")]
     public class ProductsController(IProductService productService) : ControllerBase
     {
+        [AllowAnonymous]   
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Get()
@@ -18,6 +21,7 @@ namespace eshop.API.Controllers
             return Ok(products);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -29,7 +33,7 @@ namespace eshop.API.Controllers
                                    : Ok(product);
         }
 
-
+        [AllowAnonymous]
         [HttpGet("[action]/{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Search(string name)
@@ -52,6 +56,18 @@ namespace eshop.API.Controllers
             return Ok(info);
         }
         //https://localhost:8080/Products
+
+
+
+
+
+
+
+
+
+
+
+        
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,6 +83,7 @@ namespace eshop.API.Controllers
             return BadRequest(ModelState);
         }
 
+        
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -90,7 +107,7 @@ namespace eshop.API.Controllers
 
         }
 
-
+    
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

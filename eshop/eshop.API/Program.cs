@@ -1,5 +1,8 @@
-using eshop.Common;
+﻿using eshop.Common;
 using eshop.Common.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,8 +12,33 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(option => option.AddPolicy("allow", builder =>
+{
+    builder.AllowAnyOrigin();
+    builder.AllowAnyMethod();
+    builder.AllowAnyHeader();
+    /*
+     * https://www.vakifkatilim.com.tr/
+     * http://www.vakifkatilim.com.tr/
+     * https://hesap.vakifkatilim.com.tr/
+     * https://www.vakifkatilim.com.tr:8034/
+     */
+}));
 var connectionString = builder.Configuration.GetConnectionString("db");
 builder.Services.AddApplicationServices(connectionString);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(option =>
+                {
+                    option.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                         ValidateIssuer = true,
+                         ValidateAudience = true,
+                         ValidIssuer= "vakifkatilim.server",
+                         ValidAudience = "vakifkatilim.client",
+                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Burası 256 bitlik özel ifade haberiniz olsun")),
+                        
+                    };
+                });
 
 var app = builder.Build();
 
@@ -22,7 +50,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("allow");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
