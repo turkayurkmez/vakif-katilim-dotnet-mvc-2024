@@ -15,7 +15,8 @@ namespace eshop.Application
         Task Update(UpdateExistingProductRequest request);
         
         IEnumerable<ProductDisplayResponse> SearchByName(string name);
-
+        Task<bool> IsProductExists(int id);
+        Task Delete(int id);
       
     }
 }

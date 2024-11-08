@@ -44,6 +44,11 @@ namespace eshop.Application
             return await Task.FromResult(product.Id);
         }
 
+        public Task Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Product? GetProductById(int id)
         {
             return products.Find(p => p.Id == id);
@@ -79,6 +84,11 @@ namespace eshop.Application
 
             //));
             return productResponse.Adapt<IEnumerable<ProductDisplayResponse>>(); 
+        }
+
+        public Task<bool> IsProductExists(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<ProductDisplayResponse> SearchByName(string name)

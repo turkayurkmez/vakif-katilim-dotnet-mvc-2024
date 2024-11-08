@@ -21,6 +21,11 @@ namespace eshop.Application
             return product.Id;
         }
 
+        public async Task Delete(int id)
+        {
+            await repository.Delete(id);
+        }
+
         public Product GetProductById(int id)
         {
           return repository.Get(id);
@@ -34,6 +39,11 @@ namespace eshop.Application
         public IEnumerable<ProductDisplayResponse> GetProductsByCategory(int categoryId)
         {
             return repository.GetProductsByCategory(categoryId).Adapt<IEnumerable<ProductDisplayResponse>>();
+        }
+
+        public async Task<bool> IsProductExists(int id)
+        {
+            return await repository.IsExists(id);
         }
 
         public IEnumerable<ProductDisplayResponse> SearchByName(string name)

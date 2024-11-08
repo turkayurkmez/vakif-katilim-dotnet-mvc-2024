@@ -30,6 +30,11 @@ namespace eshop.Infrastructure
             return dbContext.Categories.ToList();
         }
 
+        public Task<bool> IsExists(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task Update(Category entity)
         {
             throw new NotImplementedException();

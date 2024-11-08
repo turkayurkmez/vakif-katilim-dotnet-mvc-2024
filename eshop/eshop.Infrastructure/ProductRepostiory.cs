@@ -42,6 +42,11 @@ namespace eshop.Infrastructure
             return dbContext.Products.AsNoTracking().Where(p => p.CategoryId == categoryId);
         }
 
+        public async Task<bool> IsExists(int id)
+        {
+            return await dbContext.Products.AnyAsync(p => p.Id == id);
+        }
+
         public IEnumerable<Product> Search(string name)
         {
            return dbContext.Products.AsNoTracking().Where(p=>p.Name.Contains(name));

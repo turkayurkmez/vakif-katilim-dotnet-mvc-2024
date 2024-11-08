@@ -1,5 +1,6 @@
 ﻿using eshop.API.Models;
 using eshop.Application;
+using eshop.Application.DataTransferObjects.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,10 +30,10 @@ namespace eshop.API.Controllers
         }
 
 
-        [HttpGet("{name}")]
+        [HttpGet("[action]/{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Search(string name) 
-        { 
+        public IActionResult Search(string name)
+        {
             var products = productService.SearchByName(name);
             var info = new ProductsResponseInfo
             {
@@ -50,7 +51,68 @@ namespace eshop.API.Controllers
 
             return Ok(info);
         }
+        //https://localhost:8080/Products
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Create(CreateNewProductRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                var productId = await productService.CreateNewProduct(request);
+                return CreatedAtAction(nameof(Get), routeValues: new { id = productId }, value: null);
+            }
 
+            return BadRequest(ModelState);
+        }
+
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(int id, UpdateExistingProductRequest request)
+        {
+            if (await productService.IsProductExists(id))
+            {
+                if (ModelState.IsValid)
+                {
+                    await productService.Update(request);
+                    return NoContent();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("info", $"{id} id'li ürün bulunamadı");
+            }
+
+            return BadRequest(ModelState);
+
+        }
+
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await productService.IsProductExists(id))
+            {
+
+
+                await productService.Delete(id);
+                return Ok(new { message = $"{id} id'li ürün başarıyla silindi" });
+
+            }
+            else
+            {
+                ModelState.AddModelError("info", $"{id} id'li ürün bulunamadı");
+            }
+
+            return BadRequest(ModelState);
+
+        }
 
 
     }
