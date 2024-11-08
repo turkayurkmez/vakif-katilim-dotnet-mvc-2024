@@ -81,6 +81,11 @@ namespace eshop.Application
             return productResponse.Adapt<IEnumerable<ProductDisplayResponse>>(); 
         }
 
+        public IEnumerable<ProductDisplayResponse> SearchByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task Update(UpdateExistingProductRequest request)
         {
             var product = request.Adapt<Product>();

@@ -36,6 +36,11 @@ namespace eshop.Application
             return repository.GetProductsByCategory(categoryId).Adapt<IEnumerable<ProductDisplayResponse>>();
         }
 
+        public IEnumerable<ProductDisplayResponse> SearchByName(string name)
+        {
+            return repository.Search(name).Adapt<IEnumerable<ProductDisplayResponse>>();
+        }
+
         public async Task Update(UpdateExistingProductRequest request)
         {
            await repository.Update(request.Adapt<Product>());
